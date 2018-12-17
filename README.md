@@ -12,7 +12,8 @@ Make a sitemap for a static website based on files on disk
 ## usage
 
 Use in the root directory of the files on the site. This will only add
-files with `.html` extensions to the sitemap.
+files with `.html` extensions to the sitemap or you can use custom extension with 
+target-ext=.txt for cli or targetExt using API.
 
     sitemap-static --prefix=http://foo.bar/foo/ . > sitemap.xml
 
