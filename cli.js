@@ -19,6 +19,7 @@ if (!prefix.match(/\/$/)) prefix += "/";
 generateSitemap(process.stdout, {
   findRoot: argv._[0] || ".",
   ignoreFile: argv["ignore-file"],
+  targetExt:argv["target-ext"],
   prefix: prefix,
   pretty: argv.pretty
 });
