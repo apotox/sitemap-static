@@ -26,6 +26,7 @@ module.exports = function(stream, o = {}) {
   const finder = findit(o.findRoot || ".");
   const prefix = o.prefix || "";
   const ignore_file = o.ignoreFile || "";
+  const targetExt = o.targetExt || ".html";
   const pretty = o.pretty || false;
   let ignore_folders = [];
   let ignore = [];
@@ -35,12 +36,12 @@ module.exports = function(stream, o = {}) {
   if (ignore_file) {
     ignore = require(process.cwd() + "/" + ignore_file);
     ignore_folders = ignore
-      .filter(name => path.extname(name) !== ".html")
+      .filter(name => path.extname(name) !== targetExt)
       .map(name => new RegExp("^" + name));
   }
 
   finder.on("file", function(file /*, stat */) {
-    if (file.indexOf(".html") === -1 || ignore.indexOf(file) !== -1) {
+    if (file.indexOf(targetExt) === -1 || ignore.indexOf(file) !== -1) {
       return;
     }
 
@@ -48,13 +49,13 @@ module.exports = function(stream, o = {}) {
     let filepath = path.relative(o.findRoot, file);
 
     if (pretty) {
-      if (path.basename(filepath) === "index.html") {
+      if (path.basename(filepath) === `index${targetExt}`) {
         var dir = path.dirname(filepath);
         filepath = dir === "." ? "" : dir;
       } else {
         filepath = path.join(
           path.dirname(filepath),
-          path.basename(filepath, ".html")
+          path.basename(filepath, targetExt)
         );
       }
     }
